@@ -63,10 +63,11 @@ __global__ void shfl_intimage_rows_seth(uint4 *img, uint4 *integral_image) {
   result[3] = a.x + a.y + a.z + a.w;
 
   unsigned int mask = 0xffffffff;
-  int n = __shfl_up_sync(mask, result[0], i, 32);
+  int n = __shfl_up_sync(mask, result[0], 1, 32);
   result[0] += n;
   uint4 output = make_uint4(result[0], result[1], result[2], result[3]);
 
+  integral_image[0] = output;
   // integral_image[blockDim.x*gridDim.x + blockIdx.x] = output;
   // integral_image[blockIdx.x * 480 + (threadIdx.x + 2) % 4 +
                  // (threadIdx.x / 4) * 16 + 8] = output;
