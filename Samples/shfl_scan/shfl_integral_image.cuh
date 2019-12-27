@@ -43,6 +43,44 @@ __device__ uchar4 int_to_uchar4(unsigned int in) {
 // The approach is two pass, a horizontal (scanline) then a vertical
 // (column) pass.
 // This is the horizontal pass kernel.
+
+__global__ void shfl_intimage_rows_seth(uint4 *img, uint4 *integral_image) {
+  int id = threadIdx.x;
+    // pointer to head of current scanline
+  uint4 *scanline = &img[blockIdx.x * 120];
+  uint4 data;
+  data = scanline[id];
+  int result[16];
+  int sum;
+  unsigned int lane_id = id % warpSize;
+  int warp_id = threadIdx.x / warpSize;
+
+  uchar4 a = int_to_uchar4(data.x);
+  uchar4 b = int_to_uchar4(data.y);
+  uchar4 c = int_to_uchar4(data.z);
+  uchar4 d = int_to_uchar4(data.w);
+
+  result[0] = a.x;
+  result[1] = a.x + a.y;
+  result[2] = a.x + a.y + a.z;
+  result[3] = a.x + a.y + a.z + a.w;
+
+  result[4] = b.x;
+  result[5] = b.x + b.y;
+  result[6] = b.x + b.y + b.z;
+  result[7] = b.x + b.y + b.z + b.w;
+
+  result[8] = c.x;
+  result[9] = c.x + c.y;
+  result[10] = c.x + c.y + c.z;
+  result[11] = c.x + c.y + c.z + c.w;
+
+  result[12] = d.x;
+  result[13] = d.x + d.y;
+  result[14] = d.x + d.y + d.z;
+  result[15] = d.x + d.y + d.z + d.w;
+}
+
 __global__ void shfl_intimage_rows(uint4 *img, uint4 *integral_image) {
   __shared__ int sums[128];
 
