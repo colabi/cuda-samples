@@ -329,7 +329,7 @@ bool shuffle_integral_image_test() {
   // int gridSize = h;
 
   // Create a synthetic image for testing
-  checkCudaErrors(cudaMalloc(reinterpret_cast<void **>(&d_data), sz));
+  checkCudaErrors(cudaMalloc(reinterpret_cast<void **>(&d_data), sz*32));
   checkCudaErrors(cudaMalloc(reinterpret_cast<void **>(&d_integral_image),
                              n_elements * sizeof(int) * 4));
   checkCudaErrors(cudaMemset(d_data, 1, sz));
