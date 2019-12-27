@@ -324,7 +324,7 @@ bool shuffle_integral_image_test() {
 
   // each thread handles 16 values, use 1 block/row
   dim3 blockSize(32, 1, 1);
-  dim3 gridSize(h/100, 1, 1);
+  dim3 gridSize(h/100, 32, 1);
   // launch 1 block / row
   // int gridSize = h;
 

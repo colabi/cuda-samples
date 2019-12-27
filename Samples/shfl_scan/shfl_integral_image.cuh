@@ -47,15 +47,18 @@ __device__ uchar4 int_to_uchar4(unsigned int in) {
 __global__ void shfl_intimage_rows_seth(uint4 *img, uint4 *integral_image) {
   int id = threadIdx.x;
     // pointer to head of current scanline
-  int blocksize = 32*100;
-  uint4 *scanline = &img[threadIdx.x + blockIdx.x*blocksize];
+  int loops = 100;
+  int bigblocksize = 32*12800;
+  int blocksize = blocksize/loops;
+  uint4 *scanline = &img[blockIdx.y*bigblocksize + blockIdx.x*blocksize + threadIdx.x];
+  uint4 *outline = &integral_image[blocksize*blockIdx.x + blockIdx.y + blockIdx.y];
   int result[4];
   int sum;
   uint4 data;
   unsigned int lane_id = id % warpSize;
   int warp_id = threadIdx.x / warpSize;
-  for(int i=0; i < 100; i++) {
-    data = scanline[i];
+  for(int i=0; i < loops; i++) {
+    data = *scanline;
 
     uchar4 a = int_to_uchar4(data.x);
 
@@ -70,11 +73,11 @@ __global__ void shfl_intimage_rows_seth(uint4 *img, uint4 *integral_image) {
     uint4 output = make_uint4(result[0], result[1], result[2], result[3]);
 
     // integral_image[0] = output;
-    integral_image[blocksize*blockIdx.x + threadIdx.x] = output;
+    if(threadIdx.x == 0) 
+      *outline = output;
     scanline += 32;
+    outline += 32;
   }
-  // integral_image[blockIdx.x * 480 + (threadIdx.x + 2) % 4 +
-                 // (threadIdx.x / 4) * 16 + 8] = output;
 }
 
 __global__ void shfl_intimage_rows(uint4 *img, uint4 *integral_image) {
