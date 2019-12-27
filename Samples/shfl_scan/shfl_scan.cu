@@ -310,12 +310,12 @@ bool shuffle_integral_image_test() {
   unsigned int *d_integral_image;
   // int w = 1920;
   // int h = 1080;
-  int w = 256;
+  int w = 512;
   int h = 4096;
   int n_elements = w * h;
   int sz = sizeof(unsigned int) * n_elements;
 
-  printf("\nSeth 2 Computing Integral Image Test on size %d x %d synthetic data\n", w,
+  printf("\nSeth 3 Computing Integral Image Test on size %d x %d synthetic data\n", w,
          h);
   printf("---------------------------------------------------\n");
   checkCudaErrors(cudaMallocHost(reinterpret_cast<void **>(&h_image), sz));
