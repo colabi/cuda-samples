@@ -70,7 +70,7 @@ __global__ void shfl_intimage_rows_seth(uint4 *img, uint4 *integral_image) {
     uint4 output = make_uint4(result[0], result[1], result[2], result[3]);
 
     // integral_image[0] = output;
-    integral_image[32*gridIdx.x + blockIdx.x] = output;
+    integral_image[blocksize*blockIdx.x + threadIdx.x] = output;
     scanline += 32;
   }
   // integral_image[blockIdx.x * 480 + (threadIdx.x + 2) % 4 +
