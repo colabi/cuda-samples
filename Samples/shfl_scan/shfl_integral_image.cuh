@@ -79,6 +79,11 @@ __global__ void shfl_intimage_rows_seth(uint4 *img, uint4 *integral_image) {
   result[13] = d.x + d.y;
   result[14] = d.x + d.y + d.z;
   result[15] = d.x + d.y + d.z + d.w;
+
+  uint4 output = make_uint4(result[12], result[13], result[14], result[15]);
+
+  integral_image[blockIdx.x * 480 + (threadIdx.x + 2) % 4 +
+                 (threadIdx.x / 4) * 16 + 8] = output;
 }
 
 __global__ void shfl_intimage_rows(uint4 *img, uint4 *integral_image) {
