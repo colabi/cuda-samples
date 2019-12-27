@@ -311,7 +311,7 @@ bool shuffle_integral_image_test() {
   // int w = 1920;
   // int h = 1080;
   int w = 512;
-  int h = 4096;
+  int h = 12800;
   int n_elements = w * h;
   int sz = sizeof(unsigned int) * n_elements;
 
