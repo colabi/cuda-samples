@@ -44,7 +44,7 @@ __device__ uchar4 int_to_uchar4(unsigned int in) {
 // (column) pass.
 // This is the horizontal pass kernel.
 
-__global__ void shfl_intimage_rows_seth(uint4 *img, uint4 *integral_image) {
+__global__ void shfl_intimage_rows_seth(uint2 *img, uint4 *integral_image) {
   int id = threadIdx.x;
     // pointer to head of current scanline
   int loops = 100;
@@ -62,6 +62,7 @@ __global__ void shfl_intimage_rows_seth(uint4 *img, uint4 *integral_image) {
     data = *scanline;
 
     uchar4 a = int_to_uchar4(data.x);
+    uchar4 b = int_to_uchar4(data.y);
 
     result[0] = a.x;
     result[1] = a.x + a.y;
