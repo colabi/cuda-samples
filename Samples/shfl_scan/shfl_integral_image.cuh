@@ -48,7 +48,7 @@ __global__ void shfl_intimage_rows_seth(uint4 *img, uint4 *integral_image) {
   int id = threadIdx.x;
     // pointer to head of current scanline
   int blocksize = 32*100;
-  uint4 *scanline = &img[blockIdx.x + gridIdx.x*blocksize];
+  uint4 *scanline = &img[threadIdx.x + blockIdx.x*blocksize];
   int result[4];
   int sum;
   uint4 data;
