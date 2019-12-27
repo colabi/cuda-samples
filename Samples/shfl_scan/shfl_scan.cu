@@ -323,9 +323,10 @@ bool shuffle_integral_image_test() {
   memset(h_image, 0, sz);
 
   // each thread handles 16 values, use 1 block/row
-  int blockSize = iDivUp(w, 4);
+  dim3 blockSize(32, 1, 1);
+  dim3 gridSize(h, 1, 1);
   // launch 1 block / row
-  int gridSize = h;
+  // int gridSize = h;
 
   // Create a synthetic image for testing
   checkCudaErrors(cudaMalloc(reinterpret_cast<void **>(&d_data), sz));
