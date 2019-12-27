@@ -310,7 +310,7 @@ bool shuffle_integral_image_test() {
   unsigned int *d_integral_image;
   // int w = 1920;
   // int h = 1080;
-  int w = 512;
+  int w = 128;
   int h = 12800;
   int n_elements = w * h;
   int sz = sizeof(unsigned int) * n_elements;
@@ -323,7 +323,7 @@ bool shuffle_integral_image_test() {
   memset(h_image, 0, sz);
 
   // each thread handles 16 values, use 1 block/row
-  int blockSize = iDivUp(w, 16);
+  int blockSize = iDivUp(w, 4);
   // launch 1 block / row
   int gridSize = h;
 
