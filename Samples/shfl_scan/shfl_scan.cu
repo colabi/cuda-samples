@@ -308,8 +308,10 @@ bool shuffle_integral_image_test() {
   char *d_data;
   unsigned int *h_image;
   unsigned int *d_integral_image;
-  int w = 1920;
-  int h = 1080;
+  // int w = 1920;
+  // int h = 1080;
+  int w = 256;
+  int h = 4096;
   int n_elements = w * h;
   int sz = sizeof(unsigned int) * n_elements;
 
