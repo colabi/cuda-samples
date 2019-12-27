@@ -51,8 +51,9 @@ __global__ void shfl_intimage_rows_seth(uint2 *img, uint4 *integral_image) {
   int loops_size = loops/blockDim.y;
   int bigblocksize = 32*12800;
   int blocksize = blocksize/loops;
-  uint2 *scanline = &img[blockIdx.y*bigblocksize + blockIdx.x*blocksize + blockDim.y*320 + threadIdx.x];
-  uint4 *outline = &integral_image[blocksize*blockIdx.x + blockDim.y*320 + blockIdx.y];
+  int baseIdx = blockIdx.x*blocksize + blockDim.y*32*loop_size;
+  uint2 *scanline = &img[blockIdx.y*bigblocksize + baseIdx  + threadIdx.x];
+  uint4 *outline = &integral_image[baseIdx + blockDim.y];
   int result[4];
   int sum;
   uint4 data;
