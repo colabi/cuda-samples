@@ -342,7 +342,7 @@ bool shuffle_integral_image_test() {
 
   // Execute scan line prefix sum kernel, and time it
   cudaEventRecord(start);
-  shfl_intimage_rows<<<gridSize, blockSize>>>(
+  shfl_intimage_rows_seth<<<gridSize, blockSize>>>(
       reinterpret_cast<uint4 *>(d_data),
       reinterpret_cast<uint4 *>(d_integral_image));
   cudaEventRecord(stop);
